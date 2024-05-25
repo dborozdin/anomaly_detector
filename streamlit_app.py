@@ -46,8 +46,8 @@ if show_params:
     time_begin= st.time_input("Начальное время", value=dt.time(), key='time_begin')
     date_end= st.date_input("Конечная дата временного окна", dt.datetime(2024, 4, 20), min_value=dt.datetime(2024, 4, 15), max_value= dt.datetime(2024, 4, 22), key='d_end')
     time_end= st.time_input("Конечное время", value=dt.time(), key='time_end')
-    date_begin = dt.datetime.combine(date_begin.dt.tz_localize("Europe/Moscow"), time_begin)
-    date_end = dt.datetime.combine(date_end.dt.tz_localize("Europe/Moscow"), time_end)
+    date_begin = dt.datetime.combine(date_begin, time_begin)
+    date_end = dt.datetime.combine(date_end.dt, time_end)
     st.write('date_begin:', date_begin)
     st.write('date_end:', date_end)
     outliers_fraction = st.slider(
@@ -67,7 +67,7 @@ def sql(query):
     df_sql = pd.read_sql_query(con=disk_engine_read.connect(), 
                                   sql=sql_text(query),
                                   parse_dates=TIME_COLUMN)#
-    df_sql['point']= df_sql['point'].dt.tz_localize("Europe/Moscow").dt.tz_convert("Europe/Moscow")
+    #df_sql['point']= df_sql['point'].dt.tz_localize("Europe/Moscow").dt.tz_convert("Europe/Moscow")
     df_sql= df_sql.set_index('point')
     return df_sql
     
