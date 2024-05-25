@@ -1,3 +1,3 @@
 Анализ аномалий для многомерных временных рядов несколькими методами.
 
-Развернут на https://anomalizer.streamlit.app/
+Развернут на [https://anomadetector.streamlit.app/]
