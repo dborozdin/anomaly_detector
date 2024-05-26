@@ -37,7 +37,7 @@ analisysStarted = st.button('Начать анализ')
 #параметры моделирования
 method= 'CBLOF'
 models= ['CBLOF', 'HBOS', 'COPOD', 'IForest']
-ensemble_func='аномалия отмечена всеми моделями' 
+ensemble_func='аномалия отмечена большей частью моделей' 
 #отображать или нет параметры
 show_params= st.checkbox('Показать параметры')
 
@@ -54,10 +54,16 @@ if show_params:
     method = st.selectbox(
         'Использовать метод поиска аномалий',
         models +  ['Ансамбль моделей'] )
-    if method=='Ансамбль моделей (простой)':
+    if method=='Ансамбль моделей':
         ensemble_func = st.selectbox(
         'Отметить значение как аномальное, если',
-         ['аномалия отмечена всеми моделями', 'аномалия отмечена большей частью моделей', 'аномалия отмечена любой из моделей'])
+         ['аномалия отмечена большей частью моделей', 'аномалия отмечена всеми моделями', 'аномалия отмечена любой из моделей'])
+        if ensemble_func=='аномалия отмечена всеми моделями':
+            DESICION_FUNC='all'
+        elif ensemble_func=='аномалия отмечена большей частью моделей':
+            DESICION_FUNC='max'
+        else:
+            DESICION_FUNC='any'
          
 def sql(query):
     full_db_name='sqlite:///my_lite_store_cut3.db'
