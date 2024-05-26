@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 plt.style.use({'figure.facecolor':'white'})
 from pyod.models.hbos import HBOS
 from pyod.models.cblof import CBLOF
-from pyod.models.copod import COPOD
+from pyod.models.abod import ABOD
 from pyod.models.iforest import IForest
 import pytz
 import matplotlib.dates as mdates
@@ -36,7 +36,7 @@ analisysStarted = st.button('Начать анализ')
 
 #параметры моделирования
 method= 'CBLOF'
-models= ['CBLOF', 'HBOS', 'COPOD', 'IForest']
+models= ['CBLOF', 'HBOS', 'ABOD', 'IForest']
 ensemble_func='аномалия отмечена большей частью моделей' 
 #отображать или нет параметры
 show_params= st.checkbox('Показать параметры')
@@ -210,14 +210,14 @@ if analisysStarted:
         detectors_list=[]
         detectors_list.append(HBOS(contamination=outliers_fraction))
         detectors_list.append(CBLOF(contamination=outliers_fraction, random_state=RAND))
-        detectors_list.append(COPOD(contamination=outliers_fraction))
+        detectors_list.append(ABOD(contamination=outliers_fraction))
         detectors_list.append(IForest(contamination=outliers_fraction, random_state=RAND, n_estimators=IFOREST_ESTIMATORS))
         for detector, model in zip(detectors_list, models):
             detectors.append((detector, model)) 
     elif method=='HBOS':
         detectors.append((HBOS(contamination=outliers_fraction), 'HBOS'))
-    elif method=='COPOD':
-        detectors.append((COPOD(contamination=outliers_fraction), 'COPOD'))
+    elif method=='ABOD':
+        detectors.append((ABOD(contamination=outliers_fraction), 'ABOD'))
     elif method=='CBLOF':
         detectors.append((CBLOF(contamination=outliers_fraction, random_state=RAND), 'CBLOF'))
     else:# method=='IForest':
